@@ -2,6 +2,7 @@
 
 A basic proof-of-concept with [zustand](https://github.com/pmndrs/zustand/) with ssr by implementing a basic todo list.
 
+- [] Investigate Isomorphic (client & server) data hydration
 
 #### Sections
 
@@ -26,7 +27,6 @@ visit http://localhost:3001
 ### Technologies
 
 #### Client
-
 - create-react-app 
 - react / react-dom 
 - typescript
