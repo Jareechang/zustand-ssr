@@ -1,0 +1,9 @@
+html
+  include ./head.pug
+  body
+    noscript
+      p You need to enable javascript
+    div(id="root") !{markup}
+  script(src=`/assets/static/js/bundle.js`)
+  script(src=`/assets/static/js/0.chunk.js`)
+  script(src=`/assets/static/js/main.chunk.js`)
