@@ -2,7 +2,7 @@
 
 A basic proof-of-concept with [zustand](https://github.com/pmndrs/zustand/) with ssr by implementing a basic todo list.
 
-- [] Investigate Isomorphic (client & server) data hydration
+- [ ] Investigate Isomorphic (client & server) data hydration
 
 #### Sections
 
