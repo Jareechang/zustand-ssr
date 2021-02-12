@@ -3,6 +3,7 @@
 A basic proof-of-concept with [zustand](https://github.com/pmndrs/zustand/) with ssr by implementing a basic todo list.
 
 - [ ] Investigate Isomorphic (client & server) data hydration
+- [ ] Integrate immer for immutable data 
 
 #### Sections
 
