@@ -1,47 +1,44 @@
 import React, {
-    MouseEvent,
-    useState,
     useEffect
 } from 'react';
 
 import {
     Box,
     Grid,
-    Input,
     List,
+    Divider,
     Checkbox,
     ListItem,
     ListItemText,
     ListItemIcon,
     Typography,
-    Container,
-    Button
+    Container
 } from '@material-ui/core';
 
 import {
+    Alert,
+    TodoInput,
+    TodoStats
+} from './components';
+
+import {
+    // Todo - Types
     Todo,
-    useTodoStore
-} from './atoms';
+    ToggleTodoComplete,
+    // Todo - Store
+    useTodoStore,
+} from './stores';
 
 const styles = {
     ListItemTextStyle: (props: {item: Todo}) => ({
         textDecoration: props.item && props.item.completed ? 'line-through' : 'none',
         cursor: 'pointer'
-    }),
-    Input: {
-        width: '275px'
-    }
+    })
 };
 
 const App = () => {
-    const [text, setText] = useState<string>('');
-
-    const {
-        todos,
-        addTodo,
-        increment,
-        toggleTodoComplete
-    } = useTodoStore();
+    const todos : Todo[] = useTodoStore(state => state.todos);
+    const toggleTodoComplete : ToggleTodoComplete = useTodoStore(state => state.toggleTodoComplete);
 
     useEffect(() => {
         const jssStyles = document.querySelector('#jss-server-side');
@@ -49,26 +46,6 @@ const App = () => {
             jssStyles.parentElement.removeChild(jssStyles);
         }
     }, []);
-
-    const handleInputChange = (event: any) => {
-        setText(event.target.value);
-    }
-
-    const handleSubmit = (event: MouseEvent) => {
-        const newTodo : Todo = {
-            id: increment,
-            title: text,
-            completed: false
-        };
-        addTodo(newTodo);
-        setText('');
-    };
-
-    const handleInputKeyPress = (event: any) => {
-        if (event.code === 'Enter') {
-            handleSubmit(event);
-        }
-    }
 
     const handleToggleCheck = (event: any, id: number) => {
         const checked : boolean = event.target.checked;
@@ -105,46 +82,30 @@ const App = () => {
 
     return (
         <Container maxWidth="sm">
-            <Grid container>
-                <Grid
-                    item
-                    md={12}>
-                    <Box
-                        py={3}
-                        display="flex" 
-                        justifyContent="center">
-                        <Box
-                            pr={5}
-                            display="inline-block">
-                            <Input
-                                style={styles.Input}
-                                fullWidth
-                                value={text}
-                                onKeyPress={handleInputKeyPress}
-                                onChange={handleInputChange}
-                            />
+            <Box py={2}>
+                <Alert />
+                <Grid container>
+                    <Grid item md={12}>
+                        <Box py={2} style={{ minHeight: '300px' }}>
+                            <Box py={2}>
+                                <Typography variant="h6">Today</Typography>
+                            </Box>
+                            <Divider />
+                            <List>
+                                {
+                                    todos.map(
+                                        (todo: Todo) => renderTodoListItems(todo)
+                                    )
+                                }
+                            </List>
                         </Box>
-                        <Button
-                            onClick={handleSubmit}
-                            variant="contained"
-                            color="primary">
-                            Add To List
-                        </Button>
-                    </Box>
+                    </Grid>
+                    <Grid item md={12}>
+                        <TodoStats />
+                        <TodoInput />
+                    </Grid>
                 </Grid>
-                <Grid item md={12}>
-                    <Box py={2}>
-                        <Typography variant="h6">Today</Typography>
-                        <List>
-                            {
-                                todos.map(
-                                    (todo: Todo) => renderTodoListItems(todo)
-                                )
-                            }
-                        </List>
-                    </Box>
-                </Grid>
-            </Grid>
+            </Box>
         </Container>
     );
 }
