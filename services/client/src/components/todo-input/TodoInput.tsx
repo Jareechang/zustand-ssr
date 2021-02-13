@@ -10,6 +10,13 @@ import {
 } from '@material-ui/core';
 
 import {
+    useTheme,
+    Theme
+} from '@material-ui/core/styles';
+
+import {css} from '@emotion/css';
+
+import {
     ResetAlert,
     useAlertStore,
 
@@ -21,12 +28,17 @@ import {
 } from '../../stores';
 
 export interface TodoInputProps {}
-const styles = {
-    Input: {
-        width: '375px'
-    }
-};
 
+const styles = {
+    Input: (props: {theme: Theme}) => css({
+        '&&': {
+            width: '400px',
+            [props.theme.breakpoints.down('xs')]: {
+                width: '250px'
+            }
+        }
+    })
+};
 
 const TodoInput: React.FC<TodoInputProps> = (
     props: TodoInputProps
@@ -36,9 +48,10 @@ const TodoInput: React.FC<TodoInputProps> = (
     const addTodo : AddTodo = useTodoStore(state => state.addTodo);
     const resetAlert : ResetAlert = useAlertStore(state => state.resetAlert);
     const updateAlert : UpdateAlert = useAlertStore(state => state.updateAlert);
+    const theme : Theme = useTheme();
 
     const handleInputChange = (event: any) => {
-        resetAlert()
+        resetAlert();
         setText(event.target.value);
     }
 
@@ -71,10 +84,10 @@ const TodoInput: React.FC<TodoInputProps> = (
             display="flex" 
             justifyContent="center">
             <Box
-                pr={5}
+                pr={4}
                 display="inline-block">
                 <Input
-                    style={styles.Input}
+                    className={styles.Input({ theme })}
                     fullWidth
                     value={text}
                     onKeyPress={handleInputKeyPress}

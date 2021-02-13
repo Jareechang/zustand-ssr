@@ -14,6 +14,10 @@ import {
     Typography,
     Container
 } from '@material-ui/core';
+import {
+    useTheme,
+    Theme
+} from '@material-ui/core/styles';
 
 import {
     Alert,
@@ -29,16 +33,30 @@ import {
     useTodoStore,
 } from './stores';
 
+import {css} from '@emotion/css';
+
 const styles = {
-    ListItemTextStyle: (props: {item: Todo}) => ({
-        textDecoration: props.item && props.item.completed ? 'line-through' : 'none',
+    ListItemTextStyle: (props: {item: Todo}) => css({
+        textDecoration: props.item && props.item.completed
+        ? 'line-through'
+        : 'none',
         cursor: 'pointer'
+    }),
+    ListBox: (props: { theme: Theme }) => css({
+        minHeight: '300px',
+        [props.theme.breakpoints.down('xs')]: {
+            height: '350px',
+            width: '100%'
+        }
     })
 };
 
 const App = () => {
     const todos : Todo[] = useTodoStore(state => state.todos);
+    const hasTodos : boolean = useTodoStore(state => state.todos.length > 0);
     const toggleTodoComplete : ToggleTodoComplete = useTodoStore(state => state.toggleTodoComplete);
+    const theme = useTheme();
+    console.log(theme);
 
     useEffect(() => {
         const jssStyles = document.querySelector('#jss-server-side');
@@ -68,13 +86,13 @@ const App = () => {
                 </ListItemIcon>
                 <ListItemText
                     id={`${item.id}`}
+                    className={styles.ListItemTextStyle({ item })}
                     primary={item.title}
                     onClick={_ => handleToggleCheck({
                         target: {
                             checked: !item.completed
                         }
                     }, item.id)}
-                    style={styles.ListItemTextStyle({ item })}
                 />
             </ListItem>
         );
@@ -85,12 +103,28 @@ const App = () => {
             <Box py={2}>
                 <Alert />
                 <Grid container>
-                    <Grid item md={12}>
-                        <Box py={2} style={{ minHeight: '300px' }}>
+                    <Grid item md={12} xs={12}>
+                        <Box py={2} className={styles.ListBox({ theme })}>
                             <Box py={2}>
-                                <Typography variant="h6">Today</Typography>
+                                <Grid container>
+                                <Grid item md={8} xs={12}>
+                                    <Typography variant="h6">Today</Typography>
+                                </Grid>
+                                <Grid item md={4} xs={12}>
+                                    <TodoStats />
+                                </Grid>
+                                </Grid>
                             </Box>
                             <Divider />
+                            {!hasTodos && (
+                                <Box
+                                    pt={3}
+                                    display="flex"
+                                    flexDirection="column"
+                                    alignItems="flex-start">
+                                    <Typography variant="body1">No tasks today. Your day is free.</Typography>
+                                </Box>
+                            )}
                             <List>
                                 {
                                     todos.map(
@@ -101,7 +135,6 @@ const App = () => {
                         </Box>
                     </Grid>
                     <Grid item md={12}>
-                        <TodoStats />
                         <TodoInput />
                     </Grid>
                 </Grid>

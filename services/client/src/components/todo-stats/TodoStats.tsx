@@ -22,10 +22,9 @@ const TodoStats: React.FC<TodoStatsProps> = (
         numberOfCompletedTodos: state.todos.filter(todo => todo.completed).length
     }));
     if (numberOfTodos === 0) return null;
-    const progress : number = numberOfCompletedTodos / numberOfTodos * 100;
     return (
         <Box
-            py={2}
+            py={1}
             display="flex"
             flexDirection="column"
             alignItems="flex-end">
