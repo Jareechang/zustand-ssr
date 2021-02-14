@@ -8,7 +8,7 @@ A basic proof-of-concept with [zustand](https://github.com/pmndrs/zustand/) with
 #### Sections
 
 1. [Getting started](#getting-started)
-2. [Data Loading](#data-loading)
+2. [Isomorphic Data Loading](#isomorphic-data-loading)
 3. [Technologies](#technologies)
 
 
@@ -26,9 +26,9 @@ yarn server:watch
 visit http://localhost:3001
 ```
 
-### Data Loading
+### Isomorphic Data Loading (client & server)
 
-The application initializes the data loading through `App.getSeverProps()`.
+Load the data, and render the markup with a given state in zustand on the server then preload data on the client side to preserve the same state in the zustand store.
 
 **On the server:**
 
