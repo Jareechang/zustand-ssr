@@ -6,9 +6,11 @@ import express from 'express'
 import path from 'path'
 import ReactDOM from 'react-dom/server'
 import React from 'react'
-import { ServerStyleSheets } from '@material-ui/core/styles';
+import { ServerStyleSheets } from '@material-ui/core/styles'
 
 import Entry from 'client/src/entry'
+import * as stores from 'client/src/stores'
+import * as iso from 'client/src/iso'
 
 const app : Express.Application = express()
 const port : number = 3001
@@ -55,20 +57,28 @@ app.get('/', (
     res: Express.Response,
     next: Express.NextFunction
 ) => {
-    const sheets = new ServerStyleSheets();
+    const sheets = new ServerStyleSheets()
+
+    Entry.initStore();
+
     const markup = (
         ReactDOM.renderToString(
             sheets.collect(
                 <Entry />
             )
         )
-    );
-    const css = sheets.toString();
+    )
+
+    const storeData = iso.getStoreStates();
+    const css = sheets.toString()
+
     res.render('index.pug', {
         publicUrl: clientServer.http,
         markup,
-        css
+        css,
+        storeKey: 'zustand-preload',
+        storeData: iso.serialize(JSON.stringify(storeData))
     })
 })
 
-server.listen(port, () => console.log(`running api on port ${port}!`));
+server.listen(port, () => console.log(`running api on port ${port}!`))

@@ -56,7 +56,6 @@ const App = () => {
     const hasTodos : boolean = useTodoStore(state => state.todos.length > 0);
     const toggleTodoComplete : ToggleTodoComplete = useTodoStore(state => state.toggleTodoComplete);
     const theme = useTheme();
-    console.log(theme);
 
     useEffect(() => {
         const jssStyles = document.querySelector('#jss-server-side');
@@ -141,6 +140,30 @@ const App = () => {
             </Box>
         </Container>
     );
+}
+
+/*
+ *
+ * Fetch data for preloading
+ *
+ * **/
+App.getServerProps = () : any => {
+    return ({
+        useTodoStore: {
+            todos: [
+                {
+                    id: 0,
+                    title: 'Walk the dog',
+                    completed: false
+                },
+                {
+                    id: 1,
+                    title: 'Go to the grocery store',
+                    completed: false
+                },
+            ]
+        }
+    } as any);
 }
 
 export default App;

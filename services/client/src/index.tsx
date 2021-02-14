@@ -6,6 +6,10 @@ import reportWebVitals from './reportWebVitals';
 
 import './liveReload'
 
+window.onload = () => {
+    Entry.initStore();
+}
+
 ReactDOM.render(
     <React.StrictMode>
         <Entry />

@@ -7,3 +7,6 @@ html
   script(src=`/assets/static/js/bundle.js`)
   script(src=`/assets/static/js/0.chunk.js`)
   script(src=`/assets/static/js/main.chunk.js`)
+  script(data-preload-key=`${storeKey}` type="application/json") !{storeData}
+  script.
+        window.__StoreKey__ = "!{storeKey}";
