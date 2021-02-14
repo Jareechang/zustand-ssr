@@ -52,6 +52,7 @@ These store instances are called with `Entry.initStore()`, however this time it 
 - typescript
 - zustand
 - material-ui
+- emotion
 
 #### Server 
 - express
@@ -63,3 +64,4 @@ These store instances are called with `Entry.initStore()`, however this time it 
 - typescript
 - zustand
 - material-ui
+- emotion

@@ -4,6 +4,8 @@ import React, {
 
 import MuiAlert from '@material-ui/lab/Alert';
 
+import {css} from '@emotion/css';
+
 import {
     useTodoStore,
 
@@ -25,11 +27,11 @@ export interface AlertProps {
 }
 
 const styles = {
-    ToastPlaceholderDiv: {
+    ToastPlaceholderDiv: css({
         width: 'auto',
         height: '48px',
         visibility: ('hidden' as CSSVisibility)
-    }
+    })
 };
 
 const Alert: React.FC<AlertProps> = (
@@ -105,7 +107,7 @@ const Alert: React.FC<AlertProps> = (
             {message}
         </MuiAlert>
     ) : (
-        <div style={styles.ToastPlaceholderDiv} />
+        <div className={styles.ToastPlaceholderDiv} />
     );
 }
 
