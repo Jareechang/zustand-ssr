@@ -61,8 +61,6 @@ app.get('/', (
 
     const stores = iso.createStores()
 
-    console.log('id: ', stores.id);
-
     Entry.initStore(stores)
 
     const markup = (

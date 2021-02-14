@@ -3,8 +3,7 @@ import create from 'zustand';
 
 
 export const createStores = () : any => {
-    let newStoreInstances : any = {};
-    newStoreInstances.id = Math.round(Math.random()*100);
+    let storeInstances : any = {};
     Object.keys(stores).forEach((storeName) => {
         const matchesFactoryFn = !!/create/.test(storeName)
         if (storeName
@@ -14,10 +13,10 @@ export const createStores = () : any => {
             const store = create(blueprint);
             const newStoreName = storeName.replace('create', 'use');
             // re-name 'create' to 'use' as client side using the 'use' key word
-            newStoreInstances[newStoreName] = store;
+            storeInstances[newStoreName] = store;
         }
     });
-    return newStoreInstances;
+    return storeInstances;
 }
 /*
  * Set the store states
