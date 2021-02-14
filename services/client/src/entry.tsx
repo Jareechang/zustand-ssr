@@ -4,15 +4,14 @@ import { ThemeProvider } from '@material-ui/core/styles';
 import theme from './theme';
 import App from './App';
 
+import * as iso from './iso';
 import * as stores from './stores';
 
-import * as iso from './iso';
-
-const initStore = () => {
+const initStore = (newStores: any) => {
     const isSSR = typeof window === 'undefined';
     if (isSSR) {
         const serverProps = App.getServerProps();
-        iso.setStoreStates(serverProps);
+        iso.setStoreStates(newStores, serverProps);
     } else {
         try {
             // @ts-ignore
@@ -21,7 +20,7 @@ const initStore = () => {
             const rawData = element?.innerHTML;
             if (rawData) {
                 const JSONData = JSON.parse(iso.deserialize(rawData));
-                iso.setStoreStates(JSONData);
+                iso.setStoreStates(stores, JSONData);
             }
         } catch (ex) {
             console.warn('Failed to get preload.');
@@ -29,10 +28,10 @@ const initStore = () => {
     }
 }
 
-const Entry = () => {
+const Entry = (props: any) => {
     return (
         <ThemeProvider theme={theme}>
-            <App />
+            <App stores={props.stores} />
         </ThemeProvider>
     );
 }

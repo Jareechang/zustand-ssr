@@ -4,15 +4,17 @@ import ReactDOM from 'react-dom';
 import Entry from './entry';
 import reportWebVitals from './reportWebVitals';
 
+import * as stores from './stores';
+
 import './liveReload'
 
 window.onload = () => {
-    Entry.initStore();
+    Entry.initStore(stores);
 }
 
 ReactDOM.render(
     <React.StrictMode>
-        <Entry />
+        <Entry stores={stores} />
     </React.StrictMode>,
     document.getElementById('root')
 );

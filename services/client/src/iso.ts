@@ -1,15 +1,37 @@
 import * as stores from './stores';
+import create from 'zustand';
 
+
+export const createStores = () : any => {
+    let newStoreInstances : any = {};
+    newStoreInstances.id = Math.round(Math.random()*100);
+    Object.keys(stores).forEach((storeName) => {
+        const matchesFactoryFn = !!/create/.test(storeName)
+        if (storeName
+            && matchesFactoryFn) {
+            // @ts-ignore
+            const blueprint = stores[storeName];
+            const store = create(blueprint);
+            const newStoreName = storeName.replace('create', 'use');
+            // re-name 'create' to 'use' as client side using the 'use' key word
+            newStoreInstances[newStoreName] = store;
+        }
+    });
+    return newStoreInstances;
+}
 /*
  * Set the store states
  *
  * **/
-export const setStoreStates = (preload: any): void => {
+export const setStoreStates = (
+    newStores: any,
+    preload: any
+): void => {
     if (typeof preload !== 'object') return;
 
     Object.keys(preload).forEach((storeName) => {
         // @ts-ignore
-        const store = stores[storeName];
+        const store = newStores[storeName];
         const storePreload = preload[storeName];
         if (store && store.setState) {
             store.setState(storePreload)
@@ -21,10 +43,13 @@ export const setStoreStates = (preload: any): void => {
     });
 }
 
-export const getStoreStates = (preload: any): any => {
-    const storeData = Object.keys(stores).reduce((acc: any, name: string) => {
+export const getStoreStates = (
+    newStores: any
+): any => {
+    if (typeof newStores !== 'object') return newStores;
+    const storeData = Object.keys(newStores).reduce((acc: any, name: string) => {
         // @ts-ignore
-        const store = stores[name]
+        const store = newStores[name]
         if (store && store.getState) {
             const storeState = store.getState()
             acc[name] = storeState

@@ -1,7 +1,8 @@
 import create, {
     State,
     GetState,
-    SetState
+    SetState,
+    UseStore
 } from 'zustand'
 
 // Data
@@ -24,11 +25,10 @@ export interface TodoState extends State {
     toggleTodoComplete: ToggleTodoComplete;
 }
 
-const useStore = create<TodoState>((
+export const blueprint = (
     set: SetState<TodoState>,
     get: GetState<TodoState>
 ) : TodoState => ({
-
     todos: [],
 
     idIncrement: 1,
@@ -65,6 +65,10 @@ const useStore = create<TodoState>((
             todos: newTodos
         }
     })
-}));
+})
 
-export default useStore;
+export const createTodoStore = () : UseStore<TodoState> => {
+    return create<TodoState>(blueprint);
+}
+
+export default createTodoStore();

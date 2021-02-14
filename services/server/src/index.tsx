@@ -9,8 +9,8 @@ import React from 'react'
 import { ServerStyleSheets } from '@material-ui/core/styles'
 
 import Entry from 'client/src/entry'
-import * as stores from 'client/src/stores'
 import * as iso from 'client/src/iso'
+import from 'client/src/stores'
 
 const app : Express.Application = express()
 const port : number = 3001
@@ -59,17 +59,22 @@ app.get('/', (
 ) => {
     const sheets = new ServerStyleSheets()
 
-    Entry.initStore();
+    const stores = iso.createStores()
+
+    console.log('id: ', stores.id);
+
+    Entry.initStore(stores)
 
     const markup = (
         ReactDOM.renderToString(
             sheets.collect(
-                <Entry />
+                <Entry stores={stores} />
             )
         )
     )
 
-    const storeData = iso.getStoreStates();
+    const storeData = iso.getStoreStates(stores)
+
     const css = sheets.toString()
 
     res.render('index.pug', {

@@ -1,7 +1,8 @@
 import create, {
     State,
     GetState,
-    SetState
+    SetState,
+    UseStore
 } from 'zustand'
 import { Color } from '@material-ui/lab/Alert';
 
@@ -23,7 +24,7 @@ export interface UpdateAlertOptions {
     message: string;
 }
 
-const useStore = create<AlertState>((
+const blueprint = (
     set: SetState<AlertState>,
     get: GetState<AlertState>
 ) : AlertState => ({
@@ -55,7 +56,10 @@ const useStore = create<AlertState>((
             message: ''
         }
     })
-}));
+})
 
-export default useStore;
+export const createAlertStore = () : UseStore<AlertState> => {
+    return create<AlertState>(blueprint);
+}
 
+export default createAlertStore();

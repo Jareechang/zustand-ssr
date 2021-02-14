@@ -28,6 +28,7 @@ import {
 import {
     // Todo - Types
     Todo,
+    TodoState,
     ToggleTodoComplete,
     // Todo - Store
     useTodoStore,
@@ -51,10 +52,10 @@ const styles = {
     })
 };
 
-const App = () => {
-    const todos : Todo[] = useTodoStore(state => state.todos);
-    const hasTodos : boolean = useTodoStore(state => state.todos.length > 0);
-    const toggleTodoComplete : ToggleTodoComplete = useTodoStore(state => state.toggleTodoComplete);
+const App = (props: any) => {
+    const todos : Todo[] = useTodoStore((state: TodoState) => state.todos);
+    const hasTodos : boolean = useTodoStore((state: TodoState) => state.todos.length > 0);
+    const toggleTodoComplete : ToggleTodoComplete = useTodoStore((state: TodoState) => state.toggleTodoComplete);
     const theme = useTheme();
 
     useEffect(() => {
