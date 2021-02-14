@@ -8,7 +8,7 @@ A basic proof-of-concept with [zustand](https://github.com/pmndrs/zustand/) with
 #### Sections
 
 1. [Getting started](#getting-started)
-2. [Isomorphic Data Loading](#isomorphic-data-loading)
+2. [Isomorphic Data Loading](#isomorphic-data-loading-client--server)
 3. [Technologies](#technologies)
 
 
